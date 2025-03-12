@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_lambda as _lambda,
     aws_dynamodb as dynamodb,
     aws_events as events,
+    aws_events_targets as targets,
     Duration
 )
 from constructs import Construct
@@ -76,6 +77,26 @@ class StockNotifierStack(Stack):
                 minute="0"
             )
         )
+        
+        # Connect our one minute rule to our lambda function
+        one_minte_event_rule.add_target(
+            targets.LambdaFunction(
+                stock_notifier_lambda
+            )
+        )
+        
+        # Give our Lambda Function the permissions to read off  of our Parameter Store
+        discord_webhook_url.grant_read(stock_notifier_lambda)
+        
+        # Give our Lambda Functions the permission to read/write to Dynamo
+        stock_dynamo_table.grant_read_write_data(stock_notifier_lambda)
+        
+        # Give Lambda permissions to pull our ECR image
+        stock_notifier_docker_image.repository.grant_pull(stock_notifier_lambda)
+        
+        
+        
+        
         
         
         
