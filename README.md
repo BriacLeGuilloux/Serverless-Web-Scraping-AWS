@@ -99,7 +99,17 @@ This is an example of how to list things you need to use the software and how to
 
   ### Install the required dependencies
   pip install -r requirements.txt
+
+  ### Install AWS
+  pip install --upgrade awscli
+
+  ### Connect to AWS CLI
+  aws configure
+
+  ### Create some files in S3 to deploy CDK code
+  cdk bootstrap
   ```
+You also need an IAM user with admin access connected to your virtual environment.
 
 
 ### Installation
