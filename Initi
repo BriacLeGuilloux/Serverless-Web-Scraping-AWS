@@ -1,5 +1,0 @@
-## Intialiser un projet cdk
-"""sh
-cdk init app --language python
-npm install -g aws-cdk
-"""
