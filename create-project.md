@@ -75,3 +75,8 @@ cdk deploy
 
 
 
+# Create parameter
+$env:DISCORD_WEBHOOK_URL="https:discord"
+export DISCORD_WEBHOOK_URL="https:discord"
+
+echo $env:DISCORD_WEBHOOK_URL
