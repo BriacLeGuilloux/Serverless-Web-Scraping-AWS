@@ -2,6 +2,8 @@ from aws_cdk import (
     Stack,
     aws_ssm as ssm,
     aws_lambda as _lambda,
+    aws_dynamodb as dynamodb,
+    aws_events as events,
     Duration
 )
 from constructs import Construct
@@ -34,7 +36,7 @@ class StockNotifierStack(Stack):
         )
         
         # Lambda Function
-        stock_notifier_lambda = lambda.DockerImageFunction(
+        stock_notifier_lambda = _lambda.DockerImageFunction(
             self,
             "StockNotifierLambda",
             function_name="StockNotifierLambda",
@@ -46,4 +48,39 @@ class StockNotifierStack(Stack):
                 tag_or_digest=stock_notifier_docker_image.image_tag
             )
         )
+        
+        # Stock Dynamo DB Table
+        stock_dynamo_table = dynamodb.Table(
+            self,
+            "StockTable",
+            partition_key=dynamodb.Attribute(
+                name="PartId",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="StoreId",
+                type=dynamodb.AttributeType.STRING
+            ),
+            table_name="Stock_Table",
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST
+        )
+        
+        # Cloudwatch event (once per minute)
+        one_minte_event_rule = events.Rule(
+            self,
+            "MinuteRule",
+            rule_name="MinuteRule",
+            schedule=events.Schedule.cron(
+                # TODO, change to one minute
+                hour="0",
+                minute="0"
+            )
+        )
+        
+        
+        
+        
+        
+        
+        
         
