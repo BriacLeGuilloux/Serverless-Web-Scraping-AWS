@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 ## Connect to AWS account admin
 """
-cdk bootstrap
+aws configure
 """
 
 
@@ -60,6 +60,18 @@ cdk bootstrap
 """
 cdk bootstrap
 """
+
+## synthesize the CloudFormation template for this code.
+"""
+cdk synth
+""" sh
+
+## Deploy
+
+""" sh
+cdk deploy
+"""
+
 
 
 

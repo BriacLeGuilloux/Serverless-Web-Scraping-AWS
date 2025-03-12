@@ -1,9 +1,10 @@
 from aws_cdk import (
-    Duration,
     Stack,
-    aws_sqs as sqs,
+    aws_ssm as ssm
 )
 from constructs import Construct
+from aws_cdk.aws_ecr_assets import DockerImageAsset
+import os
 
 class StockNotifierStack(Stack):
 
@@ -11,8 +12,13 @@ class StockNotifierStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # The code that defines your stack goes here
-
-        queue = sqs.Queue(
-            self, "StockNotifierQueue",
-            visibility_timeout=Duration.seconds(300),
+        # ParameterStore 
+        
+        
+        # Create a ECR repository for our docker image
+        stock_notifier_docker_image = DockerImageAsset(
+            self,
+            "StockNotifierImage",
+            directory="./lambda",
+            file="Dockerfile"
         )
